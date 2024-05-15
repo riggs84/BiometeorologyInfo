@@ -18,27 +18,42 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
+const val HOME = "home"
+const val SETTINGS = "settings"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Column(Modifier.fillMaxSize()) {
                 val navigationController = rememberNavController()
-                NavHost(navController = navigationController, startDestination = "home", modifier = Modifier.weight(1f)) {
-                    composable("home") { HomeScreen() }
-                    composable("settings") { SettingsScreen() }
+                NavHost(
+                    navController = navigationController,
+                    startDestination = HOME,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    composable(HOME) { HomeScreen() }
+                    composable(SETTINGS) { SettingsScreen() }
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(text = "Home Screen", modifier = Modifier.clickable { navigationController.navigate("home") })
-                    Text(text = "Settings Screen", modifier = Modifier.clickable {  navigationController.navigate("settings") })
+                    Text(
+                        text = "Home Screen",
+                        modifier = Modifier.clickable { navigationController.navigate(HOME) })
+                    Text(
+                        text = "Settings Screen",
+                        modifier = Modifier.clickable { navigationController.navigate(SETTINGS) })
                 }
             }
         }
     }
 }
+
+
 
 @Composable
 fun HomeScreen() {
@@ -46,4 +61,5 @@ fun HomeScreen() {
 }
 
 @Composable
-fun SettingsScreen() {}
+fun SettingsScreen() {
+}
