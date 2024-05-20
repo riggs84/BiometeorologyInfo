@@ -68,4 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     // Nav Host
     implementation(libs.androidx.navigation.compose)
+    // parse html
+    implementation(libs.jsoup)
 }
