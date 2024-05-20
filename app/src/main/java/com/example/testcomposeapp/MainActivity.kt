@@ -1,6 +1,6 @@
 package com.example.testcomposeapp
 
-import NavigationHost
+import com.example.testcomposeapp.ui.navigation.NavigationHost
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

@@ -1,3 +1,6 @@
+package com.example.testcomposeapp.ui.navigation
+
+import HomeScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
