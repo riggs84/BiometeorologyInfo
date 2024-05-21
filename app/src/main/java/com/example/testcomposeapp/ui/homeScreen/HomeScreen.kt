@@ -90,6 +90,9 @@ fun ForecastCardComponent(data: List<Forecast>) {
     Card(
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.LightGray,
+        ),
     ) {
         repeat(data.size) {
             ForecastComponent(data = data[it])
