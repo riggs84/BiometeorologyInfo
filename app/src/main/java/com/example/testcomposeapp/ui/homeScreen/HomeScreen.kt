@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,8 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
             Box(Modifier.fillMaxSize()) {
                 Text(
                     text = "LOADING",
-                    Modifier.align(Alignment.Center)
+                    Modifier.align(Alignment.Center),
+                    textAlign = TextAlign.Center,
                 )
             }
         }
