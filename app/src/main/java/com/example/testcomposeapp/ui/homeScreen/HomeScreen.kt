@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,10 +53,10 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
                         Modifier.fillMaxWidth(),
                         fontSize = 24.sp
                     )
+                    Spacer(modifier = Modifier.size(24.dp))
+                    ForecastCardComponent(data = (result as ViewState.Success).data.currentDay)
                 }
-                items((result as ViewState.Success).data.currentDay) {
-                    ForecastComponent(data = it)
-                }
+
                 if ((result as ViewState.Success).data.nextDay.isNotEmpty()) {
                     item {
                         Spacer(modifier = Modifier.size(24.dp))
@@ -62,9 +65,8 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
                             Modifier.fillMaxWidth(),
                             fontSize = 24.sp
                         )
-                    }
-                    items((result as ViewState.Success).data.nextDay) {
-                        ForecastComponent(data = it)
+                        Spacer(modifier = Modifier.size(24.dp))
+                        ForecastCardComponent(data = (result as ViewState.Success).data.nextDay)
                     }
                 }
             }
@@ -82,15 +84,40 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
 }
 
 @Composable
+fun ForecastCardComponent(data: List<Forecast>) {
+    Card(
+        shape = MaterialTheme.shapes.large,
+        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
+    ) {
+        repeat(data.size) {
+            ForecastComponent(data = data[it])
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ForecastCardComponentPreview() {
+    val testData = listOf(
+        Forecast(
+            "Индекс метеочувствительности",
+            3,
+            "Велика вероятность влияния погодных условий на самочувствие метеозависимых людей."
+        )
+    )
+    ForecastCardComponent(data = testData)
+}
+
+@Composable
 fun RatingBar(rating: Int) {
     val color: Color =
-        if (rating <= 2) Color.Green else if (rating <= 4) Color.Yellow else Color.Red
+        if (rating <= 2) Color.Green else if (rating <= 3) Color.Yellow else Color.Red
     Row(Modifier.fillMaxWidth()) {
         repeat(rating) {
             Image(
                 painter = ColorPainter(color), contentDescription = "rating",
                 Modifier
-                    .size(20.dp, 40.dp)
+                    .size(20.dp, 60.dp)
                     .padding(2.dp)
             )
         }
@@ -102,7 +129,7 @@ fun RatingBar(rating: Int) {
 fun RatingBarPreview() {
     Column {
         RatingBar(rating = 1)
-        RatingBar(rating = 4)
+        RatingBar(rating = 3)
         RatingBar(rating = 5)
     }
 }
@@ -114,21 +141,21 @@ fun ForecastComponent(data: Forecast) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        Text(text = data.title, fontSize = 12.sp)
-        Spacer(modifier = Modifier.size(2.dp))
+        Text(text = data.title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.size(8.dp))
         RatingBar(rating = data.counter)
-        Spacer(modifier = Modifier.size(2.dp))
-        Text(text = data.description, fontSize = 12.sp)
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = data.description, fontSize = 16.sp)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ForecastComponentPreview() {
-    val data = Forecast(
+    val testData = Forecast(
         "Индекс метеочувствительности",
         3,
         "Велика вероятность влияния погодных условий на самочувствие метеозависимых людей."
     )
-    ForecastComponent(data = data)
+    ForecastComponent(data = testData)
 }
