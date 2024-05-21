@@ -1,6 +1,5 @@
 package com.example.testcomposeapp.data.repository
 
-import com.example.testcomposeapp.data.Forecast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -48,3 +47,5 @@ data class ForecastData(
     var currentDay: List<Forecast> = emptyList(),
     var nextDay: List<Forecast> = emptyList()
 )
+
+data class Forecast(val title: String, val counter: Int, val description: String)
