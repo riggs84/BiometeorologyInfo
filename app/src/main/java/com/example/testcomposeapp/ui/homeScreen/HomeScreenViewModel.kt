@@ -2,8 +2,8 @@ package com.example.testcomposeapp.ui.homeScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testcomposeapp.data.Forecast
-import com.example.testcomposeapp.data.repository.HtmlParserImpl
+import com.example.testcomposeapp.data.repository.ForecastData
+import com.example.testcomposeapp.data.repository.HtmlParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class HomeScreenViewModel: ViewModel() {
 
-    private var parserRepository: HtmlParserImpl = HtmlParserImpl()
+    private var parserRepository: HtmlParser = HtmlParser()
 
     private var mutableState = MutableStateFlow<ViewState>(ViewState.Loading)
     val state: StateFlow<ViewState> = mutableState.asStateFlow()
@@ -36,7 +36,7 @@ class HomeScreenViewModel: ViewModel() {
 }
 
 sealed class ViewState {
-    data class Success(val data: Forecast): ViewState()
+    data class Success(val data: ForecastData): ViewState()
     data object Loading: ViewState()
     data class Error(val err: String) : ViewState()
 }

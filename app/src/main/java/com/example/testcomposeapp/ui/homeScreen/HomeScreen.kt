@@ -20,17 +20,25 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
     when (result) {
         is ViewState.Loading -> {
             Box(Modifier.fillMaxSize()) {
-                Text(text = "LOADING", Modifier.align(Alignment.Center))
+                Text(
+                    text = "LOADING",
+                    Modifier.align(Alignment.Center)
+                )
             }
         }
+
         is ViewState.Success -> {
             Column(Modifier.fillMaxSize()) {
-                ForecastComponent(data = (result as ViewState.Success).data)
+
             }
         }
+
         is ViewState.Error -> {
             Box(Modifier.fillMaxSize()) {
-                Text(text = (result as ViewState.Error).err, Modifier.align(Alignment.Center))
+                Text(
+                    text = (result as ViewState.Error).err,
+                    Modifier.align(Alignment.Center)
+                )
             }
         }
     }
