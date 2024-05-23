@@ -89,9 +89,9 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
 fun ForecastCardComponent(data: List<Forecast>) {
     Card(
         shape = MaterialTheme.shapes.large,
-        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
     ) {
         repeat(data.size) {
