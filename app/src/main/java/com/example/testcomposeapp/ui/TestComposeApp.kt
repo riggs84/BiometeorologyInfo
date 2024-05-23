@@ -1,4 +1,3 @@
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,16 +18,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.testcomposeapp.ui.navigation.NavigationHost
 import com.example.testcomposeapp.ui.navigation.Routes
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Composable
 fun MyApp() {
     val navigationController = rememberNavController()
 
     Scaffold(bottomBar = { BottomBar(navigationController) }) {
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(it)
+            Modifier.fillMaxSize().padding(it)
         ) {
             NavigationHost(navigationController, modifier = Modifier.weight(1f))
         }
