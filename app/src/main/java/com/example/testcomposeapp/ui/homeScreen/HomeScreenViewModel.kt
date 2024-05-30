@@ -1,5 +1,6 @@
 package com.example.testcomposeapp.ui.homeScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testcomposeapp.data.DataStoreManager
@@ -32,14 +33,20 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 dataStoreManager.getCity().collect {
-                    url = it
+                    url = cityMapToUrl(it)
+                    Log.d("azaza", url)
+                    val result = parser.getTodayForecast(url)
+                    Log.d("azaza1", result.toString())
+                    mutableState.update { ViewState.Success(result) }
                 }
-                val result = parser.getTodayForecast(url)
-                mutableState.update { ViewState.Success(result) }
             } catch (e: Exception) {
                 mutableState.update { ViewState.Error(e.message ?: "exception happen") }
             }
         }
+    }
+
+    private fun cityMapToUrl(city: String): String {
+        return "https://world-weather.ru/pogoda/russia/${city}/biometeorology/"
     }
 }
 

@@ -51,7 +51,7 @@ fun DropDown(
 
     val icon = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.padding(20.dp)) {
+    Column(Modifier.padding(20.dp).clickable { expanded = !expanded }) {
         OutlinedTextField(
             readOnly = true,
             value = selectedState,
@@ -61,8 +61,7 @@ fun DropDown(
                 .onGloballyPositioned { coordinates ->
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coordinates.size.toSize()
-                }
-                .clickable { expanded = !expanded },
+                },
             label = { Text("Select city") },
             trailingIcon = {
                 Icon(icon, "contentDescription",
