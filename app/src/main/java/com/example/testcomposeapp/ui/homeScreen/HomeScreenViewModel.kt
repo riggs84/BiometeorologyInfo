@@ -2,8 +2,9 @@ package com.example.testcomposeapp.ui.homeScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testcomposeapp.data.repository.ForecastData
-import com.example.testcomposeapp.data.repository.HtmlParser
+import com.example.testcomposeapp.data.DataStoreManager
+import com.example.testcomposeapp.data.ForecastData
+import com.example.testcomposeapp.data.HtmlParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,9 +12,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel: ViewModel() {
+class HomeScreenViewModel(private val dataStoreManager: DataStoreManager): ViewModel() {
 
     private var parserRepository: HtmlParser = HtmlParser()
+    private lateinit var url: String
 
     private var mutableState = MutableStateFlow<ViewState>(ViewState.Loading)
     val state: StateFlow<ViewState> = mutableState.asStateFlow()
@@ -25,7 +27,10 @@ class HomeScreenViewModel: ViewModel() {
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = parserRepository.getTodayForecast()
+                dataStoreManager.getCity().collect {
+                    url = it
+                }
+                val result = parserRepository.getTodayForecast(url)
                 mutableState.update { ViewState.Success(result) }
             } catch(e: Exception) {
                 mutableState.update { ViewState.Error(e.message ?: "exception happen") }

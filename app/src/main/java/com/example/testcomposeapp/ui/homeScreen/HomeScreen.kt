@@ -19,19 +19,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.testcomposeapp.data.repository.Forecast
+import com.example.testcomposeapp.data.DataStoreManager
+import com.example.testcomposeapp.data.Forecast
 import com.example.testcomposeapp.ui.homeScreen.HomeScreenViewModel
 import com.example.testcomposeapp.ui.homeScreen.ViewState
+import javax.inject.Inject
 
 @Composable
-fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
+fun HomeScreen() {
+    val homeViewModel = HomeScreenViewModel(DataStoreManager(LocalContext.current))
     val result by homeViewModel.state.collectAsState()
+
     when (result) {
         is ViewState.Loading -> {
             Box(Modifier.fillMaxSize()) {

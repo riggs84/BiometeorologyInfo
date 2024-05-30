@@ -1,4 +1,4 @@
-package com.example.testcomposeapp.data.repository
+package com.example.testcomposeapp.data
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -6,10 +6,8 @@ import org.jsoup.nodes.Element
 
 class HtmlParser {
 
-    private val url = "https://world-weather.ru/pogoda/russia/saint_petersburg/biometeorology/"
-
-    fun getTodayForecast(): ForecastData {
-        val nodes = getDocument().getElementsByClass("biometric")
+    fun getTodayForecast(url: String): ForecastData {
+        val nodes = getDocument(url).getElementsByClass("biometric")
         val result = ForecastData()
 
         nodes.forEachIndexed { index, element ->
@@ -22,7 +20,7 @@ class HtmlParser {
         return result
     }
 
-    private fun getDocument(): Document {
+    private fun getDocument(url: String): Document {
         return Jsoup.connect(url).get()
     }
 

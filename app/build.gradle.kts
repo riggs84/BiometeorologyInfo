@@ -70,4 +70,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // parse html
     implementation(libs.jsoup)
+    // data store a-ka shared pref
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }
