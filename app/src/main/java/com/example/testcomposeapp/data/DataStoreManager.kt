@@ -20,6 +20,13 @@ class DataStoreManager(private val ctx: Context) {
 
     fun getCity(): Flow<String> {
         return ctx.dataStore.data.map {
+            it[CITY] ?: "saint_petersburg"
+            //return@map "https://world-weather.ru/pogoda/russia/${city}/biometeorology/"
+        }
+    }
+
+    fun getUrl(): Flow<String> {
+        return ctx.dataStore.data.map {
             val city = it[CITY] ?: "saint_petersburg"
             return@map "https://world-weather.ru/pogoda/russia/${city}/biometeorology/"
         }

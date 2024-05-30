@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +32,7 @@ fun SettingsScreen() {
     val cities = listOf("saint_petersburg", "moscow")
 
     Column {
-        DropDown(values = cities, selectedValue = cities.first()) {
+        DropDown(values = cities) {
             settingsScreenViewModel.setCity(it)
         }
     }
@@ -40,26 +41,28 @@ fun SettingsScreen() {
 @Composable
 fun DropDown(
     values: List<String>,
-    selectedValue: String,
     onSelected: (str: String) -> Unit,
 ) {
+    val viewModel: SettingsScreenViewModel = hiltViewModel()
+    val selectedState by viewModel.state.collectAsState()
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(selectedValue) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     val icon = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown
 
     Column(Modifier.padding(20.dp)) {
         OutlinedTextField(
-            value = selectedText,
-            onValueChange = { selectedText = it },
+            readOnly = true,
+            value = selectedState,
+            onValueChange = { },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coordinates.size.toSize()
-                },
+                }
+                .clickable { expanded = !expanded },
             label = { Text("Select city") },
             trailingIcon = {
                 Icon(icon, "contentDescription",
@@ -76,7 +79,6 @@ fun DropDown(
                 DropdownMenuItem(text = { Text(text = label) },
                     onClick = {
                         onSelected(label)
-                        selectedText = label
                         expanded = false
                     })
             }
