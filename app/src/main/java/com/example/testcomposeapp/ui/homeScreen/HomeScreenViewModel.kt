@@ -1,20 +1,25 @@
 package com.example.testcomposeapp.ui.homeScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testcomposeapp.data.DataStoreManager
 import com.example.testcomposeapp.data.ForecastData
 import com.example.testcomposeapp.data.HtmlParser
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeScreenViewModel(private val dataStoreManager: DataStoreManager): ViewModel() {
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
+    private val parser: HtmlParser
+) : ViewModel() {
 
-    private var parserRepository: HtmlParser = HtmlParser()
     private lateinit var url: String
 
     private var mutableState = MutableStateFlow<ViewState>(ViewState.Loading)
@@ -25,23 +30,22 @@ class HomeScreenViewModel(private val dataStoreManager: DataStoreManager): ViewM
     }
 
     private fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
                 dataStoreManager.getCity().collect {
                     url = it
                 }
-                val result = parserRepository.getTodayForecast(url)
+                val result = parser.getTodayForecast(url)
                 mutableState.update { ViewState.Success(result) }
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 mutableState.update { ViewState.Error(e.message ?: "exception happen") }
             }
-
         }
     }
 }
 
 sealed class ViewState {
-    data class Success(val data: ForecastData): ViewState()
-    data object Loading: ViewState()
+    data class Success(val data: ForecastData) : ViewState()
+    data object Loading : ViewState()
     data class Error(val err: String) : ViewState()
 }

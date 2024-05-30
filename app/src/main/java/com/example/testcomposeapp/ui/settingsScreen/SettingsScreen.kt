@@ -19,17 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.example.testcomposeapp.data.DataStoreManager
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.testcomposeapp.ui.settingsScreen.SettingsScreenViewModel
 
 @Composable
 fun SettingsScreen() {
-
-    val settingsScreenViewModel = SettingsScreenViewModel(DataStoreManager(LocalContext.current))
+    val settingsScreenViewModel: SettingsScreenViewModel = hiltViewModel()
     val cities = listOf("saint_petersburg", "moscow")
 
     Column {
@@ -62,7 +61,7 @@ fun DropDown(
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coordinates.size.toSize()
                 },
-            label = { Text("Label") },
+            label = { Text("Select city") },
             trailingIcon = {
                 Icon(icon, "contentDescription",
                     Modifier.clickable { expanded = !expanded })

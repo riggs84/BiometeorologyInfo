@@ -25,15 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.testcomposeapp.data.DataStoreManager
 import com.example.testcomposeapp.data.Forecast
 import com.example.testcomposeapp.ui.homeScreen.HomeScreenViewModel
 import com.example.testcomposeapp.ui.homeScreen.ViewState
-import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun HomeScreen() {
-    val homeViewModel = HomeScreenViewModel(DataStoreManager(LocalContext.current))
+    val homeViewModel: HomeScreenViewModel = hiltViewModel()
     val result by homeViewModel.state.collectAsState()
 
     when (result) {
