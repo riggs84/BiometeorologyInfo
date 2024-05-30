@@ -7,6 +7,7 @@ import com.example.testcomposeapp.data.DataStoreManager
 import com.example.testcomposeapp.data.ForecastData
 import com.example.testcomposeapp.data.HtmlParser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,13 +31,11 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun getData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 dataStoreManager.getCity().collect {
                     url = cityMapToUrl(it)
-                    Log.d("azaza", url)
                     val result = parser.getTodayForecast(url)
-                    Log.d("azaza1", result.toString())
                     mutableState.update { ViewState.Success(result) }
                 }
             } catch (e: Exception) {
