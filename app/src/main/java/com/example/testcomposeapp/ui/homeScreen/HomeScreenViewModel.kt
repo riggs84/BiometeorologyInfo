@@ -1,6 +1,5 @@
 package com.example.testcomposeapp.ui.homeScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testcomposeapp.data.DataStoreManager
