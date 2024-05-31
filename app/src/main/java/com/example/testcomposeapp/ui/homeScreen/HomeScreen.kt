@@ -49,7 +49,7 @@ fun HomeScreen() {
             LazyColumn(
                 Modifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(4.dp)
             ) {
                 item {
                     Text(
