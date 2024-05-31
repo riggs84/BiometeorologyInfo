@@ -24,14 +24,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.testcomposeapp.data.repository.Forecast
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.testcomposeapp.data.Forecast
 import com.example.testcomposeapp.ui.homeScreen.HomeScreenViewModel
 import com.example.testcomposeapp.ui.homeScreen.ViewState
 
 @Composable
-fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
+fun HomeScreen() {
+    val homeViewModel: HomeScreenViewModel = hiltViewModel()
     val result by homeViewModel.state.collectAsState()
+
     when (result) {
         is ViewState.Loading -> {
             Box(Modifier.fillMaxSize()) {
@@ -47,7 +49,7 @@ fun HomeScreen(homeViewModel: HomeScreenViewModel = viewModel()) {
             LazyColumn(
                 Modifier
                     .fillMaxSize()
-                    .padding(24.dp)
+                    .padding(12.dp)
             ) {
                 item {
                     Text(

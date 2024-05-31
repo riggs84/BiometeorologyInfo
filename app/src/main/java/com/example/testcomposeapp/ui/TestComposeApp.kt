@@ -56,7 +56,7 @@ fun BottomBar(navigationController: NavHostController) {
             icon = {
                 Icon(
                     imageVector = Icons.Outlined.Settings,
-                    contentDescription = "home screen navigation",
+                    contentDescription = "settings screen navigation",
                 )
             }
         )
