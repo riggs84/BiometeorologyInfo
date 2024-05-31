@@ -22,6 +22,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.testcomposeapp.ui.settingsScreen.SettingsScreenViewModel
@@ -29,10 +30,11 @@ import com.example.testcomposeapp.ui.settingsScreen.SettingsScreenViewModel
 @Composable
 fun SettingsScreen() {
     val settingsScreenViewModel: SettingsScreenViewModel = hiltViewModel()
+    val selected by settingsScreenViewModel.state.collectAsState()
     val cities = listOf("saint_petersburg", "moscow")
 
     Column {
-        DropDown(values = cities) {
+        DropDown(cities, selected) {
             settingsScreenViewModel.setCity(it)
         }
     }
@@ -40,21 +42,23 @@ fun SettingsScreen() {
 
 @Composable
 fun DropDown(
-    values: List<String>,
+    cities: List<String>,
+    selected: String,
     onSelected: (str: String) -> Unit,
 ) {
-    val viewModel: SettingsScreenViewModel = hiltViewModel()
-    val selectedState by viewModel.state.collectAsState()
 
     var expanded by remember { mutableStateOf(false) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     val icon = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.padding(20.dp).clickable { expanded = !expanded }) {
+    Column(
+        Modifier
+            .padding(20.dp)
+            .clickable { expanded = !expanded }) {
         OutlinedTextField(
             readOnly = true,
-            value = selectedState,
+            value = selected,
             onValueChange = { },
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,8 +78,8 @@ fun DropDown(
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
-            values.forEach { label ->
-                DropdownMenuItem(text = { Text(text = label) },
+            cities.forEach { label ->
+                DropdownMenuItem(text = { Text(text = label, fontSize = 20.sp) },
                     onClick = {
                         onSelected(label)
                         expanded = false
